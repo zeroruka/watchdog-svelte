@@ -1,17 +1,22 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { HTTP } from '$lib/axios';
+	import { PUBLIC_SERVER_URL } from '$env/static/public';
 	import { Button } from '$lib/components/ui/button';
 	import { Pause, Play } from 'lucide-svelte';
 
 	async function toggleScraper() {
 		const token = $page.data.token;
-		HTTP.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 		if ($page.data.user.scraper_status) {
-			await HTTP.post('/control/stop/');
+			await fetch(PUBLIC_SERVER_URL + '/control/stop/', {
+				method: 'POST',
+				headers: { Authorization: `Bearer ${token}` }
+			});
 		} else {
-			await HTTP.post('/control/start/');
+			await fetch(PUBLIC_SERVER_URL + '/control/start/', {
+				method: 'POST',
+				headers: { Authorization: `Bearer ${token}` }
+			});
 		}
 		await invalidateAll();
 	}

@@ -1,9 +1,7 @@
-import { HTTP } from '$lib/axios';
+export async function load({ fetch }) {
+	const rsp = await fetch('/admin/get-all-listings/');
 
-export async function load() {
-	const rsp = await HTTP.get('/admin/get-all-listings/');
-
-	const allListings = rsp.data;
+	const allListings = await rsp.json();
 
 	const transformedListings = [];
 

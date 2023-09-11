@@ -1,16 +1,17 @@
-import { HTTP } from '$lib/axios';
 import { toTitleCase, transformObject } from '$lib/utils';
 import { fail } from '@sveltejs/kit';
 
-export const load = async () => {
-	const { data } = await HTTP.get('/scraper/');
+export const load = async ({ fetch }) => {
+	const rsp = await fetch(`/scraper/`);
+
+	const data = await rsp.json();
 
 	const urls = transformObject(data) as ScraperUrl[];
 	return { urls };
 };
 
 export const actions = {
-	add: async ({ request }) => {
+	add: async ({ request, fetch }) => {
 		const form = await request.formData();
 		const url = form.get('url');
 		const name = form.get('name');
@@ -25,7 +26,13 @@ export const actions = {
 		};
 
 		try {
-			await HTTP.put('/scraper/', newUrl);
+			await fetch('/scraper/', {
+				method: 'PUT',
+				body: JSON.stringify(newUrl),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
 		} catch (error: any) {
 			return fail(error.response.status, error.response.data);
 		}
@@ -34,7 +41,7 @@ export const actions = {
 			message: 'URL added'
 		};
 	},
-	delete: async ({ request }) => {
+	delete: async ({ request, fetch }) => {
 		const form = await request.formData();
 		const url = form.get('url');
 
@@ -43,8 +50,12 @@ export const actions = {
 		}
 
 		try {
-			await HTTP.delete(`/scraper/`, {
-				data: { url }
+			await fetch('/scraper/', {
+				method: 'DELETE',
+				body: JSON.stringify({ url }),
+				headers: {
+					'Content-Type': 'application/json'
+				}
 			});
 		} catch (error: any) {
 			return fail(error.response.status, error.response.data);

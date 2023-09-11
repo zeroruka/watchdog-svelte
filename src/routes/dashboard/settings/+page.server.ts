@@ -1,15 +1,14 @@
-import { HTTP } from '$lib/axios';
 import { fail, type Actions } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
-import type { PageServerLoad } from './$types';
 import { profileFormSchema } from './profile-form.svelte';
 
-export const load: PageServerLoad = async () => {
-	const profile = await HTTP.get('/get-user-profile/');
-	if (profile.status !== 200) {
+export const load = async ({ fetch }) => {
+	const rsp = await fetch('/get-user-profile/');
+
+	if (rsp.status !== 200) {
 		return;
 	}
-	const user = profile.data;
+	const user = await rsp.json();
 
 	return {
 		form: superValidate({ username: user.username }, profileFormSchema)

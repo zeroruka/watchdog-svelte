@@ -1,4 +1,3 @@
-import { HTTP } from '$lib/axios';
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 import { setError, superValidate } from 'sveltekit-superforms/server';
 import type { PageServerLoad } from './$types';
@@ -19,27 +18,32 @@ export const actions: Actions = {
 			});
 		}
 
-		try {
-			await HTTP.post('/change-password/', {
+		const rsp = await event.fetch('/change-password/', {
+			method: 'POST',
+			body: JSON.stringify({
 				old_password: form.data.oldPassword,
 				new_password: form.data.newPassword
-			});
-		} catch (error: any) {
-			if (error.response.status === 400)
-				setError(form, 'newPassword', 'New password cannot be the same as old password');
-			else if (error.response.status === 401) {
-				setError(form, 'oldPassword', 'Incorrect password');
-			} else {
-				setError(form, 'oldPassword', 'Something went wrong');
+			}),
+			headers: {
+				'Content-Type': 'application/json'
 			}
-			return fail(400, {
+		});
+		if (rsp.status === 200) {
+			return {
 				form
-			});
+			};
 		}
 
-		return {
+		if (rsp.status === 400)
+			setError(form, 'newPassword', 'New password cannot be the same as old password');
+		else if (rsp.status === 401) {
+			setError(form, 'oldPassword', 'Incorrect password');
+		} else {
+			setError(form, 'oldPassword', 'Something went wrong');
+		}
+		return fail(400, {
 			form
-		};
+		});
 	},
 	delete: async () => {
 		// Dont actually delete the account , testing purposes

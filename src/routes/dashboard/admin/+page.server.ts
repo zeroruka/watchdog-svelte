@@ -1,12 +1,9 @@
-import { HTTP } from '$lib/axios';
 import { fail } from '@sveltejs/kit';
 
 export const actions = {
-	default: async () => {
-		try {
-			await HTTP.get('/admin/start-all-scrapers/');
-		} catch (error) {
-			console.log(error);
+	default: async ({ fetch }) => {
+		const rsp = await fetch('/admin/start-all-scrapers/');
+		if (rsp.status !== 200) {
 			return fail(400, { message: 'Failed to start all scrapers' });
 		}
 

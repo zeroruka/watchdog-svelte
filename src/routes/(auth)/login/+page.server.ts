@@ -1,4 +1,3 @@
-import { HTTP } from '$lib/axios';
 import { fail, redirect } from '@sveltejs/kit';
 import { setError, superValidate } from 'sveltekit-superforms/server';
 import { loginFormSchema } from './login-form.svelte';
@@ -11,7 +10,6 @@ export const load = async () => {
 
 export const actions = {
 	default: async (event) => {
-		console.log('Here!');
 		const form = await superValidate(event, loginFormSchema);
 		if (!form.valid) {
 			return fail(400, {
@@ -20,16 +18,24 @@ export const actions = {
 		}
 
 		try {
-			const rsp = await HTTP.post('/login/', {
-				username: form.data.username,
-				password: form.data.password
+			const rsp = await event.fetch('/login/', {
+				method: 'POST',
+				body: JSON.stringify({ username: form.data.username, password: form.data.password }),
+				headers: {
+					'Content-Type': 'application/json'
+				}
 			});
-			console.log(rsp.data);
-			const token = rsp.data.token;
+
+			const data = await rsp.json();
+			if (rsp.status !== 200) {
+				setError(form, 'password', 'Something went wrong');
+				setError(form, 'username', 'Something went wrong');
+				return fail(400, { form });
+			}
+			const token = data.token;
 			event.cookies.set('token', token, {
 				path: '/'
 			});
-			HTTP.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 		} catch (error: any) {
 			console.log(error);
 			if (error.response.status === 401) {

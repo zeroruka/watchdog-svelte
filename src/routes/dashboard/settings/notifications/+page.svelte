@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { Separator } from '$lib/components/ui/separator';
 	import type { PageData } from './$types';
-
-	export let data: PageData;
 </script>
 
 <div class="space-y-6">

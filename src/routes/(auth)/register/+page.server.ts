@@ -1,4 +1,3 @@
-import { HTTP } from '$lib/axios';
 import { fail, redirect } from '@sveltejs/kit';
 import { setError, superValidate } from 'sveltekit-superforms/server';
 import { registerFormSchema } from './register-form.svelte';
@@ -19,30 +18,32 @@ export const actions = {
 		}
 		let rsp;
 		try {
-			rsp = await HTTP.post(
-				'/register/',
-				{
+			rsp = await event.fetch('/register/', {
+				method: 'POST',
+				body: JSON.stringify({
 					username: form.data.username,
 					password: form.data.password,
 					account: form.data.account
-				},
-				{
-					validateStatus: (status) => status === 201 || status === 401 || status === 402
+				}),
+				headers: {
+					'Content-Type': 'application/json'
 				}
-			);
+			});
 		} catch (error) {
 			console.error(error);
-			const serializedError = JSON.stringify(error);
 			setError(form, 'password', 'Registration failed');
-			return fail(400, { form, rsp: rsp?.data, error: serializedError });
+			return fail(400, { form, rsp: rsp?.json() });
 		}
 
 		switch (rsp.status) {
 			case 201: {
 				try {
-					rsp = await HTTP.post('/login/', {
-						username: form.data.username,
-						password: form.data.password
+					rsp = await event.fetch('/login/', {
+						method: 'POST',
+						body: JSON.stringify({ username: form.data.username, password: form.data.password }),
+						headers: {
+							'Content-Type': 'application/json'
+						}
 					});
 				} catch (error) {
 					console.error(error);
@@ -55,9 +56,11 @@ export const actions = {
 					return fail(400, { form });
 				}
 
-				const token = rsp.data.token;
+				const data = await rsp.json();
+				const token = data.token;
+
 				event.cookies.set('token', token);
-				HTTP.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+
 				throw redirect(302, '/dashboard');
 			}
 			case 401:
@@ -70,7 +73,7 @@ export const actions = {
 
 			default:
 				setError(form, 'password', 'Registration failed');
-				return fail(400, { form, rsp: rsp.data });
+				return fail(400, { form, rsp: rsp.json() });
 		}
 	}
 };
