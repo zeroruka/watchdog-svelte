@@ -4,6 +4,8 @@ import { redirect, type Handle } from '@sveltejs/kit';
 export const handle: Handle = async ({ event, resolve }) => {
 	const token = event.cookies.get('token');
 
+	console.log('hooks.server.ts token:', token);
+
 	if (event.url.pathname === '/') {
 		if (token) {
 			throw redirect(303, '/dashboard');
