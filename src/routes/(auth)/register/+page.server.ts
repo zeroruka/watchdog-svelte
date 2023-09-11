@@ -32,8 +32,9 @@ export const actions = {
 			);
 		} catch (error) {
 			console.error(error);
+			const serializedError = JSON.stringify(error);
 			setError(form, 'password', 'Registration failed');
-			return fail(400, { form, rsp: rsp?.data, error });
+			return fail(400, { form, rsp: rsp?.data, error: serializedError });
 		}
 
 		switch (rsp.status) {
