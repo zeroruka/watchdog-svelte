@@ -10,8 +10,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 		});
 	}
 
-	console.log('hooks.server.ts token:', token);
-
 	if (event.url.pathname === '/') {
 		if (token) {
 			throw redirect(303, '/dashboard');

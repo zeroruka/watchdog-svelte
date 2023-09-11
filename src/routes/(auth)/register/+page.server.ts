@@ -17,51 +17,45 @@ export const actions = {
 			});
 		}
 		let rsp;
-		try {
-			rsp = await event.fetch('/register/', {
-				method: 'POST',
-				body: JSON.stringify({
-					username: form.data.username,
-					password: form.data.password,
-					account: form.data.account
-				}),
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			});
-		} catch (error) {
-			console.error(error);
-			setError(form, 'password', 'Registration failed');
-			return fail(400, { form, rsp: rsp?.json() });
-		}
+
+		rsp = await event.fetch('/register/', {
+			method: 'POST',
+			body: JSON.stringify({
+				username: form.data.username,
+				password: form.data.password,
+				account: form.data.account
+			}),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
 
 		switch (rsp.status) {
 			case 201: {
-				try {
-					rsp = await event.fetch('/login/', {
-						method: 'POST',
-						body: JSON.stringify({ username: form.data.username, password: form.data.password }),
-						headers: {
-							'Content-Type': 'application/json'
-						}
-					});
-				} catch (error) {
-					console.error(error);
-					setError(form, 'password', 'Login failed');
-					return fail(400, { form });
+				rsp = await event.fetch('/login/', {
+					method: 'POST',
+					body: JSON.stringify({ username: form.data.username, password: form.data.password }),
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				});
+
+				if (rsp.status === 200) {
+					const data = await rsp.json();
+					const token = data.token;
+
+					event.cookies.set('token', token);
+
+					throw redirect(302, '/dashboard');
 				}
 
-				if (rsp.status !== 200) {
+				if (rsp.status === 401) {
 					setError(form, 'password', 'Invalid username or password');
-					return fail(400, { form });
+				} else {
+					setError(form, 'password', 'Login failed');
 				}
 
-				const data = await rsp.json();
-				const token = data.token;
-
-				event.cookies.set('token', token);
-
-				throw redirect(302, '/dashboard');
+				return fail(400, { form });
 			}
 			case 401:
 				setError(form, 'account', 'Invalid account id');
