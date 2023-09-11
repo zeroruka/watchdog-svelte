@@ -23,12 +23,15 @@ export const actions = {
 				username: form.data.username,
 				password: form.data.password
 			});
+			console.log(rsp.data);
 			const token = rsp.data.token;
+			console.log(token);
 			event.cookies.set('token', token, {
 				path: '/'
 			});
 			HTTP.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 		} catch (error: any) {
+			console.log(error);
 			if (error.response.status === 401) {
 				setError(form, 'password', 'Incorrect password or username');
 				setError(form, 'username', 'Incorrect password or username');
