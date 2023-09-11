@@ -26,7 +26,6 @@ export const actions = {
 			});
 			console.log(rsp.data);
 			const token = rsp.data.token;
-			console.log(token);
 			event.cookies.set('token', token, {
 				path: '/'
 			});
@@ -37,7 +36,7 @@ export const actions = {
 				setError(form, 'password', 'Incorrect password or username');
 				setError(form, 'username', 'Incorrect password or username');
 			}
-			return { form };
+			return fail(400, { form });
 		}
 		throw redirect(302, '/dashboard');
 	}
