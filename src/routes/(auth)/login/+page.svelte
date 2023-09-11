@@ -2,6 +2,8 @@
 	import LoginForm from './login-form.svelte';
 
 	export let data;
+
+	console.log(data);
 </script>
 
 <div class="mx-auto flex p-4 flex-col justify-center space-y-6 sm:w-[350px]">
