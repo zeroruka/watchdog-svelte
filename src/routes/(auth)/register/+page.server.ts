@@ -33,7 +33,7 @@ export const actions = {
 		} catch (error) {
 			console.error(error);
 			setError(form, 'password', 'Registration failed');
-			return { form };
+			return fail(400, { form });
 		}
 
 		switch (rsp.status) {
@@ -46,12 +46,12 @@ export const actions = {
 				} catch (error) {
 					console.error(error);
 					setError(form, 'password', 'Login failed');
-					return { form };
+					return fail(400, { form });
 				}
 
 				if (rsp.status !== 200) {
 					setError(form, 'password', 'Invalid username or password');
-					return { form };
+					return fail(400, { form });
 				}
 
 				const token = rsp.data.token;
@@ -61,15 +61,16 @@ export const actions = {
 			}
 			case 401:
 				setError(form, 'account', 'Invalid account id');
-				return { form };
+				return fail(400, { form });
 
 			case 402:
 				setError(form, 'username', 'Username already exists');
-				return { form };
+				return fail(400, { form });
 
 			default:
+				console.error(rsp);
 				setError(form, 'password', 'Registration failed');
-				return { form };
+				return fail(400, { form });
 		}
 	}
 };
