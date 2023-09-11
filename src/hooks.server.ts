@@ -49,7 +49,7 @@ export const handleFetch: HandleFetch = async ({ request, fetch, event }) => {
 		request = new Request(request.url.replace('http://localhost:5173', PUBLIC_SERVER_URL), request);
 	} else if (request.url.startsWith('https://watchdog.zeroruka.moe')) {
 		request = new Request(
-			request.url.replace('https://watchdog-api.zeroruka.moe', PUBLIC_SERVER_URL),
+			request.url.replace('https://watchdog.zeroruka.moe', PUBLIC_SERVER_URL),
 			request
 		);
 	} else {
