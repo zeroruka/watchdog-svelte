@@ -2,6 +2,9 @@
 	import RegisterForm from './register-form.svelte';
 
 	export let data;
+	export let form;
+
+	$: console.log(form);
 </script>
 
 <div class="mx-auto flex p-4 flex-col justify-center space-y-6 sm:w-[350px]">

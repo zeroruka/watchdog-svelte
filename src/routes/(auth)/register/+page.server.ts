@@ -33,7 +33,7 @@ export const actions = {
 		} catch (error) {
 			console.error(error);
 			setError(form, 'password', 'Registration failed');
-			return fail(400, { form });
+			return fail(400, { form, rsp: rsp?.data, error });
 		}
 
 		switch (rsp.status) {
@@ -68,9 +68,8 @@ export const actions = {
 				return fail(400, { form });
 
 			default:
-				console.error(rsp);
 				setError(form, 'password', 'Registration failed');
-				return fail(400, { form });
+				return fail(400, { form, rsp: rsp.data });
 		}
 	}
 };
