@@ -1,38 +1,21 @@
-# create-svelte
+# Watchdog SvelteKit Frontend
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+This project is a SvelteKit frontend application for the Watchdog service. It uses Tailwind CSS for styling, Vite for building, and several other libraries for various functionalities.
 
-## Creating a project
+## Project Structure
 
-If you're seeing this, you've probably already done this step. Congrats!
+The project is structured into several directories and files, following the SvelteKit conventions. The most important directories are:
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+- src: Contains the source code of the application.
+- src/routes: Contains the routes of the application.
+- src/lib: Contains utility functions and components.
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+## Setup Instructions
 
-## Developing
+To set up the project, follow these steps:
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+1. Clone the repository to your local machine.
+2. Install the dependencies by running npm install.
+3. Create a `.env` file at the project root and add the following environment variable:
+   - `PUBLIC_SERVER_URL`: The base URL of the Watchdog API.
+4. Start the development server by running npm run dev.
