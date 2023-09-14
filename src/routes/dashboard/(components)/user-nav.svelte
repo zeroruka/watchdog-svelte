@@ -36,6 +36,9 @@
 			<a href="/dashboard/settings">
 				<DropdownMenu.Item>Settings</DropdownMenu.Item>
 			</a>
+			<a href="https://watchdog-docs.zeroruka.moe/">
+				<DropdownMenu.Item>Documentation</DropdownMenu.Item>
+			</a>
 		</DropdownMenu.Group>
 		<DropdownMenu.Separator />
 		<a href="/api/signout">
