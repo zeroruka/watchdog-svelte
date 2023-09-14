@@ -1,16 +1,7 @@
-export const load = async ({ cookies, fetch }) => {
+export const load = async ({ cookies, locals }) => {
 	const token = cookies.get('token');
-	if (!token) {
-		return;
-	}
 
-	const profile = await fetch('/get-user-profile/');
-
-	if (profile.status !== 200) {
-		return;
-	}
-
-	const user = profile.json();
+	const user = locals.user;
 
 	return { user, token };
 };

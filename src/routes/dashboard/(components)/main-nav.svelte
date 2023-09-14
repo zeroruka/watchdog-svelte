@@ -32,7 +32,7 @@
 
 	$: classesActive = (href: string) =>
 		($page.url.pathname.startsWith(href) && href !== '/dashboard') || $page.url.pathname === href
-			? '!text-primary'
+			? 'text-primary'
 			: '';
 </script>
 

@@ -8,7 +8,7 @@
 	let loading = false;
 </script>
 
-<Card.Root class="border-primary">
+<Card.Root class=" border-muted-foreground">
 	<Card.Header>
 		<Card.Title>Start All Scrapers</Card.Title>
 		<Card.Description>

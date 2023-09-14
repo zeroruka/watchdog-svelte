@@ -28,7 +28,7 @@
 		<div class="relative z-20 mt-auto">
 			<blockquote class="space-y-2">
 				<p class="text-lg">&ldquo; Best service i've ever seen, strongly recommend! &rdquo;</p>
-				<footer class="text-sm">- Nae Gigger</footer>
+				<footer class="text-sm">- Joshua Theofilus Woo</footer>
 			</blockquote>
 		</div>
 	</div>

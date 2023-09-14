@@ -25,16 +25,16 @@ export const actions = {
 			url
 		};
 
-		try {
-			await fetch('/scraper/', {
-				method: 'PUT',
-				body: JSON.stringify(newUrl),
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			});
-		} catch (error: any) {
-			return fail(error.response.status, error.response.data);
+		const rsp = await fetch('/scraper/', {
+			method: 'PUT',
+			body: JSON.stringify(newUrl),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+
+		if (rsp.status !== 201) {
+			return fail(rsp.status, await rsp.json());
 		}
 
 		return {
@@ -49,16 +49,16 @@ export const actions = {
 			return fail(400, { message: 'No URL provided' });
 		}
 
-		try {
-			await fetch('/scraper/', {
-				method: 'DELETE',
-				body: JSON.stringify({ url }),
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			});
-		} catch (error: any) {
-			return fail(error.response.status, error.response.data);
+		const rsp = await fetch('/scraper/', {
+			method: 'DELETE',
+			body: JSON.stringify({ url }),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+
+		if (rsp.status !== 200) {
+			return fail(rsp.status, await rsp.json());
 		}
 
 		return {

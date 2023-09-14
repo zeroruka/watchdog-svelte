@@ -45,18 +45,15 @@ export const actions: Actions = {
 			form
 		});
 	},
-	delete: async () => {
-		// Dont actually delete the account , testing purposes
-		// try {
-		// 	await HTTP.delete('/goodbye/');
-		// } catch (error) {
-		// 	console.error(error);
-		// 	return fail(400, {
-		// 		error: 'Something went wrong'
-		// 	});
-		// }
+	delete: async ({ fetch }) => {
+		const goodbye = await fetch('/goodbye/', {
+			method: 'DELETE'
+		});
 
-		// Log the user out
-		throw redirect(303, '/api/signout');
+		if (goodbye.status !== 200) {
+			return fail(500, { message: 'Something went wrong' });
+		}
+
+		throw redirect(302, '/login');
 	}
 };
