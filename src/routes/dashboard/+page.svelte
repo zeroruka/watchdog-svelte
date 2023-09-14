@@ -1,6 +1,7 @@
 <script lang="ts">
 	import AddUrlForm from './(components)/add-url-form.svelte';
 	import DataTable from './(data-table)/data-table.svelte';
+
 	export let data;
 </script>
 
