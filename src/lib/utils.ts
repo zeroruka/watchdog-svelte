@@ -8,6 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
 
+// Transforms data for it to be used in a data table
 export function transformObject(data: Record<string, any>): Array<Record<string, any>> {
 	const result: Array<Record<string, any>> = [];
 	for (const key in data) {
