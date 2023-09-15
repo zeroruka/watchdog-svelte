@@ -23,7 +23,7 @@
 	<Form.Item>
 		<Form.Field {config} name="username">
 			<Form.Label>Username</Form.Label>
-			<Form.Input placeholder="@shadcn" />
+			<Form.Input />
 			<Form.Description>
 				This is your account login username. It can be your real name or a pseudonym <br /> (you can't
 				actually change the username, its just here to fill the page)
