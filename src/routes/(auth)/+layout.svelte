@@ -9,7 +9,10 @@
 	let auth: HTMLElement;
 
 	async function animate(callback: () => void) {
-		return new Promise<void>((resolve) => {
+		const style = getComputedStyle(left);
+		const animations: any[] = [];
+
+		if (style.display !== 'none') {
 			const animation1 = gsap.to(left, {
 				x: '-100%',
 				duration: 0.4,
@@ -22,20 +25,26 @@
 				ease: 'power2.out'
 			});
 
-			const animation3 = gsap.to(auth, {
-				opacity: 0,
-				duration: 0.2,
-				ease: 'power2.out',
-				delay: 0.2
-			});
+			animations.push(animation1, animation2);
+		}
 
-			const animation4 = gsap.to('.switch-button', {
-				opacity: 0,
-				duration: 0.2,
-				ease: 'power2.out'
-			});
+		const animation3 = gsap.to(auth, {
+			opacity: 0,
+			duration: 0.2,
+			ease: 'power2.out',
+			delay: 0.2
+		});
 
-			Promise.all([animation1, animation2, animation3, animation4]).then(() => {
+		const animation4 = gsap.to('.switch-button', {
+			opacity: 0,
+			duration: 0.2,
+			ease: 'power2.out'
+		});
+
+		animations.push(animation3, animation4);
+
+		return new Promise<void>((resolve) => {
+			Promise.all(animations).then(() => {
 				callback();
 				resolve();
 			});

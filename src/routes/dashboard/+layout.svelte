@@ -33,7 +33,7 @@
 				ease: 'power2.out'
 			});
 
-			Promise.all([animation1, animation2]).then(() => {
+			Promise.all([animation1, animation2, animation3]).then(() => {
 				callback();
 				resolve();
 			});
