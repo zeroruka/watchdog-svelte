@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { invalidateAll } from '$app/navigation';
+	import { invalidate } from '$app/navigation';
+	import { page } from '$app/stores';
 	import { Button } from '$lib/components/ui/button';
 	import { cn } from '$lib/utils';
 	import { RefreshCcw } from 'lucide-svelte';
@@ -10,7 +11,7 @@
 	let loading = false;
 	async function reload() {
 		loading = true;
-		await invalidateAll();
+		await invalidate($page.url); // Causes the data passed to the page to reload
 		await setTimeout(() => {
 			loading = false;
 		}, Math.floor(Math.random() * 300) + 200); // Set random timeout between 200 and 500 to make it feel slower

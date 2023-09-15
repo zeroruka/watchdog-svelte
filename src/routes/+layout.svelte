@@ -1,4 +1,6 @@
 <script>
+	import Metadata from '$lib/components/Metadata.svelte';
+
 	// import ViewTransition from '$lib/components/Navigation.svelte';
 	import { setInitialClassState } from '$lib/components/light-switch/light-switch';
 	import '../app.postcss';
@@ -9,4 +11,5 @@
 </svelte:head>
 
 <!-- <ViewTransition /> -->
+<Metadata />
 <slot />
